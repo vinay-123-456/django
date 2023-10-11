@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QR Code Reader</title>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+    <h1>QR Code Reader</h1>
+    <video id="qr-video" playsinline></video>
+    <textarea  rows="10" cols="80" name="details"></textarea>
+    {% comment %} <input type="text" value="{{ ump }}"/> {% endcomment %}
+    <input type="submit">
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/instascan@2.0.1/dist/instascan.min.js"></script>
+    <script>
+        const scanner = new Instascan.Scanner({ video: document.getElementById('qr-video') });
+
+        scanner.addListener('scan', function (content) {
+            alert('QR Code detected: ' + content);
+            //document.getElementById('demo').innerHTML=content;
+            document.getElementByName('details').innerHTML=content;
+        });
+
+        Instascan.Camera.getCameras().then(function (cameras) {
+            if (cameras.length > 0) {
+                scanner.start(cameras[0]);
+            } else {
+                console.error('No cameras found.');
+            }
+        }).catch(function (e) {
+            console.error(e);
+        });
+    </script>
+    
+</body>
+</html>
