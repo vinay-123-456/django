@@ -1,0 +1,1 @@
+web: guicorn qrscanner.wsgi
